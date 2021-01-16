@@ -4,11 +4,15 @@ using System.Linq;
 using System.Reflection;
 using System.Reflection.Emit;
 using Assets.Core.Fucine;
+using Assets.CS.TabletopUI;
 using Assets.TabletopUi.Scripts.Infrastructure.Modding;
 using GreatWork.Events;
 using GreatWork.Events.EventTypes;
 using GreatWork.Utils;
 using HarmonyLib;
+using Noon;
+using UIWidgets;
+using UnityEngine;
 
 namespace GreatWork.Patches
 {
@@ -22,6 +26,69 @@ namespace GreatWork.Patches
                 HarmonyHolder.Wrap("Postfix"),
                 HarmonyHolder.Wrap("Transpiler")
             );
+            HarmonyHolder.Harmony.Patch(
+                typeof(ModManager).Method("GetCataloguedMods"),
+                HarmonyHolder.Wrap("GetCataloguedMods")
+            );
+        }
+
+        public class DependencyException : Exception
+        {
+            public DependencyException()
+            {
+            }
+
+            public DependencyException(string message) : base(message)
+            {
+            }
+
+            public DependencyException(string message, Exception innerException) : base(message, innerException)
+            {
+            }
+        }
+
+        /*
+         * Perform topological sort on mods to ensure order loading order is consistent with dependencies
+         */
+        private static bool GetCataloguedMods(ModManager __instance, ref IEnumerable<Mod> __result)
+        {
+            var modsById =
+                (Dictionary<string, Mod>) typeof(ModManager).Property("_cataloguedMods").GetValue(__instance);
+            var mods = modsById.Values;
+            var outdeg = new Dictionary<string, int>();
+            var revDep = new Dictionary<string, List<string>>();
+            foreach (var m in mods)
+            {
+                foreach (var d in m.Dependencies.Select(d => d.ModId))
+                {
+                    outdeg.Compute(m.Id, (_, x) => x + 1);
+                    revDep.ComputeIfAbsent(d, _ => new List<string>()).Add(m.Id);
+                }
+            }
+
+            var freeMods = mods.Where(m => !outdeg.TryGetValue(m.Id, out var mo) || mo == 0)
+                .Select(m => m.Id)
+                .ToList();
+            freeMods.Reverse(); // Reverse to compensate for removing from the end, to match original order, when no dependencies are present
+            var ret = new List<Mod>();
+            while (freeMods.Count > 0)
+            {
+                var m = freeMods.Pop();
+                if (modsById.TryGetValue(m, out var mod))
+                {
+                    ret.Add(mod);
+                }
+
+                if (revDep.TryGetValue(m, out var rd))
+                {
+                    freeMods.AddRange(from d in rd
+                        where --outdeg[d] == 0
+                        select d);
+                }
+            }
+
+            __result = ret;
+            return false;
         }
 
         private static bool Prefix(ICompendium compendiumToPopulate, string forCultureId, ContentImportLog ____log)

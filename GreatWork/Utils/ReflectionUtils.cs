@@ -23,6 +23,11 @@ namespace GreatWork.Utils
             return AccessTools.Constructor(t, p);
         }
 
+        public static PropertyInfo Property(this Type t, string name)
+        {
+            return AccessTools.Property(t, name);
+        }
+
         public static Type GetCaller(Type startAt)
         {
             var st = new StackTrace(false);
