@@ -1,0 +1,6 @@
+﻿.idea
+Libs
+!Libs/Readme.md
+*.user
+GreatWork/obj
+GreatWork/bin
