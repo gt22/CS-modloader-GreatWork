@@ -81,10 +81,19 @@ namespace GreatWork.Patches
 
                 if (revDep.TryGetValue(m, out var rd))
                 {
-                    freeMods.AddRange(from d in rd
+                    freeMods.AddRange(
+                        from d in rd
                         where --outdeg[d] == 0
-                        select d);
+                        select d
+                    );
                 }
+            }
+
+            foreach (var m in outdeg.Where(m => m.Value > 0).Select(m => m.Key))
+            {
+                NoonUtility.Log($"[GreatWork] Cyclic dependency detected for mod {m}, loading them in some order", 2,
+                    VerbosityLevel.Essential);
+                ret.Add(modsById[m]);
             }
 
             __result = ret;
