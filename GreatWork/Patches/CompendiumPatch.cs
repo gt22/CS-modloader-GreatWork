@@ -59,7 +59,6 @@ namespace GreatWork.Patches
             var revDep = new Dictionary<string, List<string>>();
             foreach (var m in mods)
             {
-                Debug.Log(m.GetLongOrNormalDescription());
                 foreach (var d in m.Dependencies.Select(d => d.ModId))
                 {
                     outdeg.Compute(m.Id, (_, x) => x + 1);
