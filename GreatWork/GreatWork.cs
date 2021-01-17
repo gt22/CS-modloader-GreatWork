@@ -12,6 +12,7 @@ namespace GreatWork
             RegistryPatch.PatchAll();
             ServicePatch.PatchAll();
             CompendiumPatch.PatchAll();
+            ModPatch.PatchAll();
             GreatWorkAPI.RegisterCurrentAssembly();
         }
     }
