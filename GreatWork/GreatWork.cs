@@ -1,5 +1,7 @@
-﻿using BepInEx;
+﻿using System.IO;
+using BepInEx;
 using GreatWork.Patches;
+using UnityEngine;
 
 namespace GreatWork
 {
@@ -13,6 +15,7 @@ namespace GreatWork
             ServicePatch.PatchAll();
             CompendiumPatch.PatchAll();
             ModPatch.PatchAll();
+            ResourcePatch.PatchAll();
             GreatWorkAPI.RegisterCurrentAssembly();
         }
     }
