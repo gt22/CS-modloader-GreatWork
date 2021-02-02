@@ -10,15 +10,7 @@ namespace GreatWork.Patches
     [GwEventHandler]
     public static class LeversPatch
     {
-        private static readonly FieldInfo CStorage = typeof(Chronicler).Field("_storage");
         private static readonly FieldInfo CCompendium = typeof(Chronicler).Field("_compendium");
-
-        [SubscribeEvent]
-        private static void OnCharReg(RegistryLink<Character>.PostReg e)
-        {
-            var c = Registry.Get<Chronicler>();
-            if (c != null) CStorage.SetValue(c, e.Item);
-        }
 
         [SubscribeEvent]
         private static void OnCompReg(RegistryLink<Compendium>.PostReg e)
