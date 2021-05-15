@@ -17,6 +17,7 @@ namespace GreatWork
             ModPatch.PatchAll();
             ResourcePatch.PatchAll();
             RefinementPatch.PatchAll();
+            OverwriteOrAddPatch.PatchAll();
             GreatWorkAPI.RegisterCurrentAssembly();
         }
     }
