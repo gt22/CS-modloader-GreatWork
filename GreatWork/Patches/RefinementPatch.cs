@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using System.Reflection;
 using System.Reflection.Emit;
 using Assets.Core;
@@ -8,6 +9,7 @@ using Assets.Core.Services;
 using Assets.CS.TabletopUI;
 using GreatWork.Utils;
 using HarmonyLib;
+using JetBrains.Annotations;
 using OrbCreationExtensions;
 using UnityEngine;
 
@@ -30,7 +32,15 @@ namespace GreatWork.Patches
 
         public static string GetRefinedDescription(Element elem, ElementStackToken token)
         {
-            var refiner = new TextRefiner(token.GetAspects(true));
+            IAspectsDictionary aspects;
+            if (token == null)
+            {
+                aspects = new AspectsDictionary();
+                aspects[elem.Id] = 1;
+            } else {
+                aspects = token.GetAspects(true);
+            }
+            var refiner = new TextRefiner(aspects);
             return refiner.RefineString(elem.Description);
         }
 
