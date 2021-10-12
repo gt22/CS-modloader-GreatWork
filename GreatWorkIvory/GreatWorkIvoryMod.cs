@@ -14,6 +14,7 @@ public class GreatWorkIvoryMod
             ServicePatch.PatchAll();
             RegistryPatch.PatchAll();
             BeachcomberPatch.PatchAll();
+            CompendiumPatch.PatchAll();
             GreatWorkAPI.RegisterCurrentAssembly();
             Beachcomber.Register<MorphDetails>("mansus");
         }

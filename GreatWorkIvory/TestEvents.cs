@@ -20,7 +20,7 @@ namespace GreatWorkIvory
         [SubscribeEvent]
         public static void GameStart(RegistryLink<Numa>.PostReg e)
         {
-            Console.WriteLine("BigTest: " + Beachcomber.Get<MorphDetails>(Watchman.Get<Compendium>().GetEntityById<Recipe>("dreamenterwood")));
+            
         }
     }
 }
