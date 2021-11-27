@@ -11,7 +11,7 @@ namespace GreatWorkIvory
     {
         private static Dictionary<string, Type> ExtensionTypes = new Dictionary<string, Type>();
 
-        private static Dictionary<IEntityWithId, Dictionary<Type, IEntityWithId>> Extensions = new Dictionary<IEntityWithId, Dictionary<Type, IEntityWithId>>();
+        private static Dictionary<IEntityWithId, Dictionary<string, IEntityWithId>> Extensions = new Dictionary<IEntityWithId, Dictionary<string, IEntityWithId>>();
 
         public static void Register<T>(string name) where T : IEntityWithId
         {
@@ -29,15 +29,18 @@ namespace GreatWorkIvory
                 if (ExtensionTypes.TryGetValue(extName, out var extType))
                 {
                     Extensions.ComputeIfAbsent(
-                        owner, s => new Dictionary<Type, IEntityWithId>()
-                    )[extType] = EntityUtils.CreateEntity(extType, data.ValuesTable[ext], log);
+                        owner, s => new Dictionary<string, IEntityWithId>()
+                    )[extName] = EntityUtils.CreateEntity(extType, data.ValuesTable[ext], log);
                 }
             }
         }
 
-        public static T Get<T>(IEntityWithId owner) where T : class, IEntityWithId
+        public static T Get<T>(IEntityWithId owner, string name) where T : class, IEntityWithId
         {
-            return Extensions[owner][typeof(T)] as T;
+            name = name.ToLower();
+            if (Extensions.ContainsKey(owner) && Extensions[owner].ContainsKey(name))
+                return Extensions[owner][name] as T;
+            return default;
         }
     }
 }
