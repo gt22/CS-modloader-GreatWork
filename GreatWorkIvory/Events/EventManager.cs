@@ -73,8 +73,8 @@ namespace GreatWorkIvory.Events
                 if (_methods.ContainsKey(et))
                     foreach (var (mt, instance, filters) in _methods[et])
                     {
-                        var pass = filters.Aggregate(true, (current, filter) => current & filter.Accept(e));
-                        if (!pass) continue;
+                        if (filters.Any(filter => !filter.Accept(e))) continue;
+
                         var actualType = mt.GetParameters()[0].ParameterType;
                         object arg = e;
                         if (actualType != et)
@@ -93,9 +93,10 @@ namespace GreatWorkIvory.Events
                         }
 
                         var res = mt.Invoke(instance, new[] {arg});
-                        if (mt.ReturnType == typeof(bool))
-                            if (!(bool) res)
-                                return false;
+                        if (mt.ReturnType == typeof(bool) && !(bool) res)
+                        {
+                            return false;
+                        }
                     }
 
             return true;
