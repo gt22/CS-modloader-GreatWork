@@ -9,7 +9,7 @@ namespace GreatWorkIvory.Patches
     {
         public static void PatchAll()
         {
-            
+            Patch<MenuScreenController>("InitialiseServices");
         }
 
         private static void Patch<T>(string methodName)
