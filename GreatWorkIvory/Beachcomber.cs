@@ -1,6 +1,8 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using GreatWorkIvory.Entities;
 using GreatWorkIvory.Utils;
 using SecretHistories.Fucine;
 using SecretHistories.Fucine.DataImport;
@@ -9,38 +11,69 @@ namespace GreatWorkIvory
 {
     public static class Beachcomber
     {
-        private static Dictionary<string, Type> ExtensionTypes = new Dictionary<string, Type>();
+        private static Dictionary<Type, Dictionary<string, Type>> ExtensionTypes = new Dictionary<Type, Dictionary<string, Type>>();
 
         private static Dictionary<IEntityWithId, Dictionary<string, IEntityWithId>> Extensions = new Dictionary<IEntityWithId, Dictionary<string, IEntityWithId>>();
 
-        public static void Register<T>(string name) where T : IEntityWithId
+        public static void Register<E, T>(string name) 
+            where E : IEntityWithId 
+            where T : IEntityWithId
         {
-            if (ExtensionTypes.ContainsKey(name))
+            name = name.ToLower();
+            var ext = ExtensionTypes.ComputeIfAbsent(typeof(E), e => new Dictionary<string, Type>());
+            if (ext.ContainsKey(name))
             {
                 Console.WriteLine("Overriding extension " + name); // TODO: Proper log
             }
-            ExtensionTypes[name] = typeof(T);
+            ext[name] = typeof(T);
         }
-        public static void Load(IEntityWithId owner, EntityData data, ContentImportLog log)
+        
+        
+        public static void Load(IEntityWithId owner, Hashtable data, ContentImportLog log)
         {
-            foreach (var ext in data.ValuesTable.Keys)
+            if (!ExtensionTypes.TryGetValue(owner.GetType(), out var extTypes)) return;
+            foreach (var ext in data.Keys)
             {
-                var extName = ext.ToString();
-                if (ExtensionTypes.TryGetValue(extName, out var extType))
+                var extName = ext.ToString().ToLower();
+                if (!extTypes.TryGetValue(extName, out var extType)) continue;
+                
+                var extVal = data[ext];
+                object extData;
+                if (extType.GetInterfaces().Any(t => ReflectionUtils.IsSubclassOfRawGeneric(typeof(IBeachcomberEntity<>), t) ))
                 {
-                    Extensions.ComputeIfAbsent(
-                        owner, s => new Dictionary<string, IEntityWithId>()
-                    )[extName] = EntityUtils.CreateEntity(extType, data.ValuesTable[ext], log);
+                    var newData = new Hashtable();
+                    newData["value"] = extVal;
+                    extData = new EntityData("", newData);
                 }
+                else
+                {
+                    extData = extVal;
+                }
+                    
+                Extensions.ComputeIfAbsent(
+                    owner, s => new Dictionary<string, IEntityWithId>()
+                )[extName] = EntityUtils.CreateEntity(extType, extData, log);
             }
         }
 
-        public static T Get<T>(IEntityWithId owner, string name) where T : class, IEntityWithId
+        public static T Get<T>(this IEntityWithId owner, string name)
         {
             name = name.ToLower();
+            IEntityWithId res;
             if (Extensions.ContainsKey(owner) && Extensions[owner].ContainsKey(name))
-                return Extensions[owner][name] as T;
-            return default;
+            {
+                res = Extensions[owner][name];
+            }
+            else
+            {
+                return default;
+            }
+            
+            if (res is IBeachcomberEntity<T> bres)
+            {
+                return bres.Value;
+            }
+            return (T) res;
         }
     }
 }
