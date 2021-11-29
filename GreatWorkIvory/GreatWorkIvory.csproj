@@ -23,7 +23,7 @@
     </ItemGroup>
     <ItemGroup>
       <PackageReference Include="HarmonyX" Version="2.5.5" />
-      <PackageReference Include="LanguageExt.Parsec" Version="3.4.15" />
+      <PackageReference Include="LanguageExt.Parsec" Version="4.0.3" />
     </ItemGroup>
 
 </Project>
