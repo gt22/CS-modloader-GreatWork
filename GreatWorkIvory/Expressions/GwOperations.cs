@@ -36,11 +36,12 @@ namespace GreatWorkIvory.Expressions
         
         [ExpressionOp("=")]
         public static bool Eq(
-            [Implicit] int a,
-            [Implicit] int b
+            params object[] x
         )
         {
-            return a == b;
+            if (x.Length == 0) return true;
+            var b = x[0];
+            return x.All(a => a.Equals(b));
         }
 
         [ExpressionOp("value")]

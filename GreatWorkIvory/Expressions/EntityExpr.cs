@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using LanguageExt;
 using SecretHistories.Fucine;
 using SecretHistories.Fucine.DataImport;
 
@@ -47,8 +48,16 @@ namespace GreatWorkIvory.Expressions
 
         public void QuickSpec(string value)
         {
-            // var res = ExprParser.Parse(value);
-            
+            var res = ExprParser.Parse(value);
+            if (res.Case is SomeCase<EntityExpr> e)
+            {
+                Op = e.Value.Op;
+                Operands = e.Value.Operands;
+            }
+            else
+            {
+                throw new ArgumentException(value);
+            }
         }
     }
 }

@@ -17,6 +17,8 @@ public class GreatWorkIvoryMod
             CompendiumPatch.PatchAll();
             
             GreatWorkAPI.RegisterCurrentAssembly();
+            
+            Beachcomber.Register<Recipe, EntityExpr>("expr_test");
         }
         catch (Exception e)
         {

@@ -24,7 +24,12 @@ namespace GreatWorkIvory
         {
             try
             {
-                e.Compendium.GetEntitiesAsList<EntityExpr>().ForEach(ex => NoonUtility.Log(ex + $" - {ExpressionRegistry.Eval(null, ex)}"));
+                foreach (var ex in e.Compendium.GetEntitiesAsList<Recipe>().Map(r => r.Get<EntityExpr>("expr_test")).Filter(x => x != null))
+                {
+                    NoonUtility.Log(ex + $" - {ex.Eval(null)} - Recipe");
+                }
+
+                e.Compendium.GetEntitiesAsList<EntityExpr>().ForEach(ex => NoonUtility.Log(ex + $" - {ex.Eval(null)}"));
             }
             catch (Exception exception)
             {

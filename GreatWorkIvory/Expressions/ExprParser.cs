@@ -15,7 +15,7 @@ namespace GreatWorkIvory.Expressions
             Parser<EntityExpr> expr = null;
             var lexer = makeTokenParser(Haskell98Def);
 
-            var literal = from mark in ch('$') from word in asString(many1(either(letter, digit))) select mark + word;
+            var literal = from mark in ch('$') from word in asString(many1(noneOf(" ,[]"))) select mark + word;
             var lident = choice(literal, lexer.Identifier, lexer.Operator);
             var operands = from o in ch('[') from w in sepBy(lazyp(() => expr), lexer.Comma) from c in ch(']') select w;
 
