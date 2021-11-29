@@ -1,5 +1,6 @@
 ﻿using System.Reflection;
 using GreatWorkIvory.Events;
+using GreatWorkIvory.Expressions;
 using GreatWorkIvory.Utils;
 using SecretHistories.UI;
 
@@ -13,6 +14,7 @@ namespace GreatWorkIvory
         {
             Events.RegisterGlobal(a);
             Events.Register(new AssemblySpecificEvents(a));
+            ExpressionRegistry.RegisterFrom(a);
         }
 
         public static void RegisterCurrentAssembly()

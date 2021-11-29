@@ -1,5 +1,6 @@
 ﻿using System;
 using GreatWorkIvory;
+using GreatWorkIvory.Expressions;
 using GreatWorkIvory.Patches;
 using SecretHistories.Entities;
 
@@ -10,11 +11,11 @@ public class GreatWorkIvoryMod
     {
         try
         {
-            Console.WriteLine("Great Work Begins");
             ServicePatch.PatchAll();
             RegistryPatch.PatchAll();
             BeachcomberPatch.PatchAll();
             CompendiumPatch.PatchAll();
+            
             GreatWorkAPI.RegisterCurrentAssembly();
         }
         catch (Exception e)
