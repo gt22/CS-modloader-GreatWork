@@ -6,19 +6,24 @@
     <ItemGroup>
       <Reference Include="SecretHistories.Constants, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null">
         <HintPath>..\..\CSLibs\SecretHistories.Constants.dll</HintPath>
+        <Private>False</Private>
       </Reference>
       <Reference Include="SecretHistories.Enums, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null">
         <HintPath>..\..\CSLibs\SecretHistories.Enums.dll</HintPath>
+        <Private>False</Private>
       </Reference>
       <Reference Include="SecretHistories.Interfaces, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null">
         <HintPath>..\..\CSLibs\SecretHistories.Interfaces.dll</HintPath>
+        <Private>False</Private>
       </Reference>
       <Reference Include="SecretHistories.Main, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null">
         <HintPath>..\..\CSLibs\SecretHistories.Main.dll</HintPath>
+        <Private>False</Private>
       </Reference>
     </ItemGroup>
     <ItemGroup>
       <PackageReference Include="HarmonyX" Version="2.5.5" />
+      <PackageReference Include="LanguageExt.Parsec" Version="3.4.15" />
     </ItemGroup>
 
 </Project>
