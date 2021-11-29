@@ -8,7 +8,6 @@ using GreatWorkIvory.Utils;
 using HarmonyLib;
 using SecretHistories.Constants.Modding;
 using SecretHistories.Fucine;
-using UIWidgets.Extensions;
 
 namespace GreatWorkIvory.Patches
 {
@@ -69,7 +68,8 @@ namespace GreatWorkIvory.Patches
             var ret = new List<Mod>();
             while (freeMods.Count > 0)
             {
-                var m = freeMods.Pop();
+                var m = freeMods.Last();
+                freeMods.RemoveAt(freeMods.Count - 1);
                 if (modsById.TryGetValue(m, out var mod))
                 {
                     ret.Add(mod);
