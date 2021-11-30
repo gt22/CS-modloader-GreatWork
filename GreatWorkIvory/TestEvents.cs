@@ -23,7 +23,19 @@ namespace GreatWorkIvory
         [SubscribeEvent]
         public static void CompendiumLoad(CompendiumEvent.End e)
         {
+            try
+            {
+                foreach (var ex in e.Compendium.GetEntitiesAsList<Recipe>().Map(r => r.Get<ExprEntity>("expr_test")).Filter(x => x != null))
+                {
+                    NoonUtility.Log(ex + $" - {ex.Eval(null)} - Recipe");
+                }
 
+            }
+            catch (Exception exception)
+            {
+                Console.WriteLine(exception);
+            }
+            
         }
         
         [SubscribeEvent]

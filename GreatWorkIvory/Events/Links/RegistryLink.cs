@@ -6,12 +6,12 @@ namespace GreatWorkIvory.Events.Links
     public class RegistryLink<T> : IEventLink where T : class
     {
         private readonly object _item;
-        public readonly T Item;
+
+        public T Item => (T) _item;
 
         public RegistryLink(RegistryEvent e)
         {
             _item = e.Item;
-            if (_item is T r) Item = r;
         }
 
         public bool IsValid()

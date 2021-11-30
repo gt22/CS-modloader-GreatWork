@@ -30,6 +30,9 @@ namespace GreatWorkIvory.Expressions
             res = r;
             return false;
         }
+        
+        private static object ImplicitConvert(ExpressionContext ctx, Type target, object r)
+            => Eval(ctx, target.Name, new List<object> {r});
 
         private static bool ApplyImplicitConvert(ExpressionContext ctx, ParameterInfo p, Type target, object r,
             out object res)
@@ -38,7 +41,7 @@ namespace GreatWorkIvory.Expressions
             {
                 if (p.GetCustomAttribute<Implicit>() != null)
                 {
-                    res = TryConvert(ctx, p, target, Eval(ctx, target.Name, new List<object> {r}));
+                    res = ImplicitConvert(ctx, target, r);
                     return true;
                 }
             }
@@ -116,6 +119,11 @@ namespace GreatWorkIvory.Expressions
             {
                 throw new ArgumentException(ex.ToString());
             }
+        }
+
+        public static T Eval<T>(this ExprEntity ex, ExpressionContext ctx)
+        {
+            return (T) ImplicitConvert(ctx, typeof(T), ex.Eval(ctx));
         }
     }
 }

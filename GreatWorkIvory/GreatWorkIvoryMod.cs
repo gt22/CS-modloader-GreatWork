@@ -16,7 +16,9 @@ public class GreatWorkIvoryMod
             RegistryPatch.PatchAll();
             BeachcomberPatch.PatchAll();
             CompendiumPatch.PatchAll();
+            SituationPatches.PatchAll();
             
+            Madrugad.Init();
             GreatWorkApi.RegisterCurrentAssembly();
             
             Beachcomber.Register<Recipe, ExprEntity>("expr_test");

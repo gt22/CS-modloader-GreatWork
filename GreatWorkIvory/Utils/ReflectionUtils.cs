@@ -13,6 +13,11 @@ namespace GreatWorkIvory.Utils
             return AccessTools.Method(t, name);
         }
 
+        public static MethodInfo Method(this Type t, string name, params Type[] p)
+        {
+            return AccessTools.Method(t, name, p);
+        }
+
         public static FieldInfo Field(this Type t, string name)
         {
             return AccessTools.Field(t, name);

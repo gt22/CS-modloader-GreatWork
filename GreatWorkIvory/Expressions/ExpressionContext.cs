@@ -1,4 +1,5 @@
 ﻿using SecretHistories.Entities;
+using SecretHistories.UI;
 
 namespace GreatWorkIvory.Expressions
 {
@@ -9,6 +10,11 @@ namespace GreatWorkIvory.Expressions
         public ExpressionContext(AspectsInContext aspects)
         {
             Aspects = aspects;
+        }
+
+        public ExpressionContext(Situation s) : this(Watchman.Get<HornedAxe>().GetAspectsInContext(s.GetAspects(true)))
+        {
+            
         }
     }
 }

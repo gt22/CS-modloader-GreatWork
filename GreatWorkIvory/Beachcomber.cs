@@ -44,13 +44,18 @@ namespace GreatWorkIvory
                     extType.IsBeachcomberEntity() 
                     ? new EntityData("", new Hashtable {["value"] = extVal}) 
                     : extVal;
-                    
                 Extensions.ComputeIfAbsent(
                     owner, s => new Dictionary<string, IEntityWithId>()
                 )[extName] = EntityUtils.CreateEntity(extType, extData, log);
             }
         }
 
+        public static void Log(IEntityWithId owner)
+        {
+            NoonUtility.Log($"Logging {owner} ({owner.Id})");
+            NoonUtility.Log($"Registered: {string.Join(", ", ExtensionTypes[owner.GetType()].Map(kv => $"{kv.Key} as {kv.Value}"))}");
+            NoonUtility.Log($"Existing: {string.Join(", ", Extensions.ComputeIfAbsent(owner, s => new Dictionary<string, IEntityWithId>()).Map(kv => $"{kv.Key} = {kv.Value}"))}");
+        }
         public static T Get<T>(this IEntityWithId owner, string name)
         {
             name = name.ToLower();

@@ -74,7 +74,6 @@ namespace GreatWorkIvory.Events
                     foreach (var (mt, instance, filters) in _methods[et])
                     {
                         if (filters.Any(filter => !filter.Accept(e))) continue;
-
                         var actualType = mt.GetParameters()[0].ParameterType;
                         object arg = e;
                         if (actualType != et)

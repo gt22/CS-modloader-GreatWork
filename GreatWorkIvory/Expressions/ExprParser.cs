@@ -8,9 +8,9 @@ using static LanguageExt.Parsec.Language;
 
 namespace GreatWorkIvory.Expressions
 {
-    public class ExprParser
+    public static class ExprParser
     {
-        private static Parser<ExprEntity> parser;
+        private static readonly Parser<ExprEntity> Parser;
 
         static ExprParser()
         {
@@ -33,10 +33,10 @@ namespace GreatWorkIvory.Expressions
 
             expr = 
                 from op in operation
-                from oper in optionOrElse(Seq.empty<ExprEntity>(), operands)
-                select new ExprEntity(op, oper.ToList());
+                from operand in optionOrElse(Seq.empty<ExprEntity>(), operands)
+                select new ExprEntity(op, operand.ToList());
             
-            parser = 
+            Parser = 
                 from e in expr 
                 from eof in eof 
                 select e;
@@ -44,7 +44,7 @@ namespace GreatWorkIvory.Expressions
 
         public static Option<ExprEntity> Parse(string src)
         {
-            return parser.Parse(src).ToOption();
+            return Parser.Parse(src).ToOption();
         }
     }
 }
