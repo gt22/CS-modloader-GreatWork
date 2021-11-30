@@ -22,5 +22,10 @@ namespace GreatWorkIvory.Utils
         {
             return d[key] = comp(key, d.GetValueSafe(key));
         }
+
+        public static TValue GetOrNull<TKey, TValue>(this Dictionary<TKey, TValue> d, TKey key) where TValue : class
+        {
+            return d.TryGetValue(key, out var r) ? r : null;
+        }
     }
 }

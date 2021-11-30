@@ -23,13 +23,13 @@ namespace GreatWorkIvory.Patches
 
         private static bool Prefix<T>(T __instance)
         {
-            GreatWorkAPI.Events.FireEvent(new ServiceInitializationEvent<T>.PreInit(__instance));
+            GreatWorkApi.Events.FireEvent(new ServiceInitializationEvent<T>.PreInit(__instance));
             return true;
         }
 
         private static void Postfix<T>(T __instance)
         {
-            GreatWorkAPI.Events.FireEvent(new ServiceInitializationEvent<T>.PostInit(__instance));
+            GreatWorkApi.Events.FireEvent(new ServiceInitializationEvent<T>.PostInit(__instance));
         }
     }
 }

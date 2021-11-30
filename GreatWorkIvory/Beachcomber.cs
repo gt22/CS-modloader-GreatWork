@@ -11,9 +11,9 @@ namespace GreatWorkIvory
 {
     public static class Beachcomber
     {
-        private static Dictionary<Type, Dictionary<string, Type>> ExtensionTypes = new Dictionary<Type, Dictionary<string, Type>>();
+        private static readonly Dictionary<Type, Dictionary<string, Type>> ExtensionTypes = new Dictionary<Type, Dictionary<string, Type>>();
 
-        private static Dictionary<IEntityWithId, Dictionary<string, IEntityWithId>> Extensions = new Dictionary<IEntityWithId, Dictionary<string, IEntityWithId>>();
+        private static readonly Dictionary<IEntityWithId, Dictionary<string, IEntityWithId>> Extensions = new Dictionary<IEntityWithId, Dictionary<string, IEntityWithId>>();
 
         public static void Register<E, T>(string name) 
             where E : IEntityWithId 
@@ -23,11 +23,13 @@ namespace GreatWorkIvory
             var ext = ExtensionTypes.ComputeIfAbsent(typeof(E), e => new Dictionary<string, Type>());
             if (ext.ContainsKey(name))
             {
-                Console.WriteLine("Overriding extension " + name); // TODO: Proper log
+                NoonUtility.Log($"Overriding extension {name}");
             }
             ext[name] = typeof(T);
         }
-        
+
+        private static bool IsBeachcomberEntity(this Type t) => 
+            t.GetInterfaces().Any(i => ReflectionUtils.IsSubclassOfRawGeneric(typeof(IBeachcomberEntity<>), i));
         
         public static void Load(IEntityWithId owner, Hashtable data, ContentImportLog log)
         {
@@ -38,17 +40,10 @@ namespace GreatWorkIvory
                 if (!extTypes.TryGetValue(extName, out var extType)) continue;
                 
                 var extVal = data[ext];
-                object extData;
-                if (extType.GetInterfaces().Any(t => ReflectionUtils.IsSubclassOfRawGeneric(typeof(IBeachcomberEntity<>), t) ))
-                {
-                    var newData = new Hashtable();
-                    newData["value"] = extVal;
-                    extData = new EntityData("", newData);
-                }
-                else
-                {
-                    extData = extVal;
-                }
+                var extData = 
+                    extType.IsBeachcomberEntity() 
+                    ? new EntityData("", new Hashtable {["value"] = extVal}) 
+                    : extVal;
                     
                 Extensions.ComputeIfAbsent(
                     owner, s => new Dictionary<string, IEntityWithId>()
@@ -59,21 +54,17 @@ namespace GreatWorkIvory
         public static T Get<T>(this IEntityWithId owner, string name)
         {
             name = name.ToLower();
-            IEntityWithId res;
-            if (Extensions.ContainsKey(owner) && Extensions[owner].ContainsKey(name))
+            switch (Extensions.GetOrNull(owner)?.GetOrNull(name))
             {
-                res = Extensions[owner][name];
+                case null:
+                    return default;
+                case IBeachcomberEntity<T> bres:
+                    return bres.Value;
+                case T r:
+                    return r;
+                default:
+                    throw new InvalidCastException(name);
             }
-            else
-            {
-                return default;
-            }
-            
-            if (res is IBeachcomberEntity<T> bres)
-            {
-                return bres.Value;
-            }
-            return (T) res;
         }
     }
 }

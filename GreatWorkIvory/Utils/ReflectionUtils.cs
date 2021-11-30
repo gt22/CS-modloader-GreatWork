@@ -32,8 +32,12 @@ namespace GreatWorkIvory.Utils
         {
             var st = new StackTrace(false);
             if (startAt == null) startAt = st.GetFrame(0).GetMethod().DeclaringType;
-            return st.GetFrames().SkipWhile(f => f.GetMethod().DeclaringType != startAt)
-                .First(f => f.GetMethod().DeclaringType != startAt).GetMethod().DeclaringType;
+            var frames = st.GetFrames() ?? throw new ArgumentException("No stack frames");
+            return frames
+                .SkipWhile(f => f.GetMethod().DeclaringType != startAt)
+                .First(f => f.GetMethod().DeclaringType != startAt)
+                .GetMethod()
+                .DeclaringType;
         }
 
         public static Type GetSelf()

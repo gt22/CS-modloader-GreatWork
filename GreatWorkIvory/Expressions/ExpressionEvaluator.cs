@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
+using GreatWorkIvory.Entities;
 
 namespace GreatWorkIvory.Expressions
 {
@@ -104,7 +105,7 @@ namespace GreatWorkIvory.Expressions
             throw new ArgumentException();
         }
 
-        public static object Eval(this EntityExpr ex, ExpressionContext ctx)
+        public static object Eval(this ExprEntity ex, ExpressionContext ctx)
         {
             var values = ex.Operands.Select(e => e.Eval(ctx)).ToList();
             try

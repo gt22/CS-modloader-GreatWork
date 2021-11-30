@@ -98,7 +98,7 @@ namespace GreatWorkIvory.Patches
 
         private static void PopulateCompendiumPrefix(Compendium compendiumToPopulate, string forCultureId, ContentImportLog ____log)
         {
-            GreatWorkAPI.Events.FireEvent(new CompendiumEvent.Begin(compendiumToPopulate, forCultureId, ____log));
+            GreatWorkApi.Events.FireEvent(new CompendiumEvent.Begin(compendiumToPopulate, forCultureId, ____log));
         }
 
         private static IEnumerable<CodeInstruction> PopulateCompendiumTranspiler(IEnumerable<CodeInstruction> original)
@@ -167,7 +167,7 @@ namespace GreatWorkIvory.Patches
 
         private static void PopulateCompendiumPostfix(Compendium compendiumToPopulate, string forCultureId, ContentImportLog ____log)
         {
-            GreatWorkAPI.Events.FireEvent(new CompendiumEvent.End(compendiumToPopulate, forCultureId, ____log));
+            GreatWorkApi.Events.FireEvent(new CompendiumEvent.End(compendiumToPopulate, forCultureId, ____log));
         }
     }
 }

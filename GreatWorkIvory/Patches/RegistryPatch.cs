@@ -21,10 +21,10 @@ namespace GreatWorkIvory.Patches
             if (toRegister == null) {
                 return true;
             }
-            if (GreatWorkAPI.Events.FireEvent(new RegistryEvent.PreReg(toRegister)))
+            if (GreatWorkApi.Events.FireEvent(new RegistryEvent.PreReg(toRegister)))
                 for (var cur = toRegister.GetType(); cur != typeof(object) && cur != null; cur = cur.BaseType)
                     ___registered[cur] = toRegister;
-            GreatWorkAPI.Events.FireEvent(new RegistryEvent.PostReg(toRegister));
+            GreatWorkApi.Events.FireEvent(new RegistryEvent.PostReg(toRegister));
             return false;
         }
     }

@@ -6,7 +6,7 @@ using SecretHistories.UI;
 
 namespace GreatWorkIvory
 {
-    public class GreatWorkAPI
+    public class GreatWorkApi
     {
         public static readonly EventManager Events = new EventManager();
 

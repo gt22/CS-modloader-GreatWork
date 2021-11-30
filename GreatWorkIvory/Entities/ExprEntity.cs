@@ -1,39 +1,38 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
+using GreatWorkIvory.Expressions;
 using LanguageExt;
 using SecretHistories.Fucine;
 using SecretHistories.Fucine.DataImport;
 
-namespace GreatWorkIvory.Expressions
+namespace GreatWorkIvory.Entities
 {
-    [FucineImportable("expressions_test")]
-    public class EntityExpr : AbstractEntity<EntityExpr>, IQuickSpecEntity
+    public class ExprEntity : AbstractEntity<ExprEntity>, IQuickSpecEntity
     {
 
         [FucineValue]
         public string Op { get; set; }
         
         [FucineList]
-        public List<EntityExpr> Operands { get; set; }
+        public List<ExprEntity> Operands { get; set; }
 
-        public EntityExpr(EntityData importDataForEntity, ContentImportLog log) : base(importDataForEntity, log)
+        public ExprEntity(EntityData importDataForEntity, ContentImportLog log) : base(importDataForEntity, log)
         {
         }
 
-        public EntityExpr(string op, List<EntityExpr> operands)
+        public ExprEntity(string op, List<ExprEntity> operands)
         {
             Op = op;
             Operands = operands;
         }
 
-        public EntityExpr(string op)
+        public ExprEntity(string op)
         {
             Op = op;
-            Operands = new List<EntityExpr>();
+            Operands = new List<ExprEntity>();
         }
 
-        public EntityExpr()
+        public ExprEntity()
         {
         }
 
@@ -49,7 +48,7 @@ namespace GreatWorkIvory.Expressions
         public void QuickSpec(string value)
         {
             var res = ExprParser.Parse(value);
-            if (res.Case is SomeCase<EntityExpr> e)
+            if (res.Case is SomeCase<ExprEntity> e)
             {
                 Op = e.Value.Op;
                 Operands = e.Value.Operands;

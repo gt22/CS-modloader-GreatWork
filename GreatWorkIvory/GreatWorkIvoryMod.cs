@@ -1,5 +1,6 @@
 ﻿using System;
 using GreatWorkIvory;
+using GreatWorkIvory.Entities;
 using GreatWorkIvory.Expressions;
 using GreatWorkIvory.Patches;
 using SecretHistories.Entities;
@@ -16,9 +17,9 @@ public class GreatWorkIvoryMod
             BeachcomberPatch.PatchAll();
             CompendiumPatch.PatchAll();
             
-            GreatWorkAPI.RegisterCurrentAssembly();
+            GreatWorkApi.RegisterCurrentAssembly();
             
-            Beachcomber.Register<Recipe, EntityExpr>("expr_test");
+            Beachcomber.Register<Recipe, ExprEntity>("expr_test");
         }
         catch (Exception e)
         {

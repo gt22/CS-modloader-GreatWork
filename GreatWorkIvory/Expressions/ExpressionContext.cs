@@ -4,11 +4,11 @@ namespace GreatWorkIvory.Expressions
 {
     public class ExpressionContext
     {
-        public AspectsInContext aspects { get; }
+        public AspectsInContext Aspects { get; }
 
         public ExpressionContext(AspectsInContext aspects)
         {
-            this.aspects = aspects;
+            Aspects = aspects;
         }
     }
 }

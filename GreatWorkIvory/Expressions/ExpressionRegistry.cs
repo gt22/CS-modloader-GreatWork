@@ -15,9 +15,7 @@ namespace GreatWorkIvory.Expressions
         
         private static readonly Dictionary<string, List<ExprFunc>> Operations =
             new Dictionary<string, List<ExprFunc>>();
-
         
-
         public static void RegisterFrom(Assembly a)
         {
             foreach (var type in a.GetTypes())
@@ -35,8 +33,7 @@ namespace GreatWorkIvory.Expressions
                 }
             }
         }
-
-
+        
         public static IEnumerable<ExprFunc> Get(string op)
         {
             return Operations[op];
