@@ -17,6 +17,7 @@ public class GreatWorkIvoryMod
             BeachcomberPatch.PatchAll();
             CompendiumPatch.PatchAll();
             SituationPatches.PatchAll();
+            DictOfEntitiesPatch.PatchAll();
             
             Madrugad.Init();
             GreatWorkApi.RegisterCurrentAssembly();

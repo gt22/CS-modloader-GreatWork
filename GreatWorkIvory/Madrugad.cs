@@ -47,19 +47,19 @@ namespace GreatWorkIvory
 
         internal static void Init()
         {
-            Beachcomber.Register<Recipe, DictEntity<List<ExprEntity>>>("set_flags");
+            Beachcomber.Register<Recipe, DictEntity<ExprEntity>>("set_flags");
         }
 
         [SubscribeEvent]
         public static void OnRecipeCompletion(SituationLinks.CommandExecuted<RecipeCompletionEffectCommand>.Post e)
         {
-            var ops = e.Command.Recipe.Get<Dictionary<string, List<ExprEntity>>>("set_flags");
+            var ops = e.Command.Recipe.Get<Dictionary<string, ExprEntity>>("set_flags");
             Beachcomber.Log(e.Command.Recipe);
             Beachcomber.Log(Watchman.Get<Compendium>().GetEntityById<Recipe>(e.Command.Recipe.Id));
             if(ops == null) return;
             foreach (var op in ops)
             {
-                SetFlag(op.Key, op.Value[0].Eval<int>(new ExpressionContext(e.Situation)));
+                SetFlag(op.Key, op.Value.Eval<int>(new ExpressionContext(e.Situation)));
             }
         }
     }

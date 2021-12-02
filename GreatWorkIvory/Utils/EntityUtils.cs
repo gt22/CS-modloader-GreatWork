@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using System.Linq;
 using SecretHistories.Fucine;
 using SecretHistories.Fucine.DataImport;
@@ -21,6 +22,10 @@ namespace GreatWorkIvory.Utils
                 {
                     throw new ApplicationException("Expected " + entityType + " to be IQuickSpecEntity");
                 }
+            }
+            else if (data is Hashtable ht)
+            {
+                res = FactoryInstantiator.CreateEntity(entityType, new EntityData(ht), log);
             }
             else
             {
