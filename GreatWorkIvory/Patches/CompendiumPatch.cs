@@ -21,10 +21,6 @@ namespace GreatWorkIvory.Patches
                 HarmonyHolder.Wrap("PopulateCompendiumPostfix"),
                 HarmonyHolder.Wrap("PopulateCompendiumTranspiler")
             );
-            HarmonyHolder.Harmony.Patch(
-                typeof(ModManager).Method("GetCataloguedMods"),
-                HarmonyHolder.Wrap("GetCataloguedMods")
-            );
         }
 
         public class DependencyException : Exception
@@ -40,60 +36,6 @@ namespace GreatWorkIvory.Patches
             public DependencyException(string message, Exception innerException) : base(message, innerException)
             {
             }
-        }
-
-        /*
-         * Perform topological sort on mods to ensure order loading order is consistent with dependencies
-         */
-        private static bool GetCataloguedMods(ModManager __instance, ref IEnumerable<Mod> __result)
-        {
-            var modsById =
-                (Dictionary<string, Mod>) typeof(ModManager).Property("_cataloguedMods").GetValue(__instance);
-            var mods = modsById.Values;
-            var outdeg = new Dictionary<string, int>();
-            var revDep = new Dictionary<string, List<string>>();
-            foreach (var m in mods)
-            {
-                foreach (var d in m.Dependencies.Select(d => d.ModId))
-                {
-                    outdeg.Compute(m.Id, (_, x) => x + 1);
-                    revDep.ComputeIfAbsent(d, _ => new List<string>()).Add(m.Id);
-                }
-            }
-
-            var freeMods = mods.Where(m => !outdeg.TryGetValue(m.Id, out var mo) || mo == 0)
-                .Select(m => m.Id)
-                .ToList();
-            freeMods.Reverse(); // Reverse to compensate for removing from the end, to match original order, when no dependencies are present
-            var ret = new List<Mod>();
-            while (freeMods.Count > 0)
-            {
-                var m = freeMods.Last();
-                freeMods.RemoveAt(freeMods.Count - 1);
-                if (modsById.TryGetValue(m, out var mod))
-                {
-                    ret.Add(mod);
-                }
-
-                if (revDep.TryGetValue(m, out var rd))
-                {
-                    freeMods.AddRange(
-                        from d in rd
-                        where --outdeg[d] == 0
-                        select d
-                    );
-                }
-            }
-
-            foreach (var m in outdeg.Where(m => m.Value > 0).Select(m => m.Key))
-            {
-                NoonUtility.Log($"[GreatWork] Cyclic dependency detected for mod {m}, loading them in some order", 2,
-                    VerbosityLevel.Essential);
-                ret.Add(modsById[m]);
-            }
-
-            __result = ret;
-            return false;
         }
 
         private static void PopulateCompendiumPrefix(Compendium compendiumToPopulate, string forCultureId, ContentImportLog ____log)
