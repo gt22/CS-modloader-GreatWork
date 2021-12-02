@@ -2,6 +2,7 @@
 using GreatWorkIvory;
 using GreatWorkIvory.Entities;
 using GreatWorkIvory.Expressions;
+using GreatWorkIvory.Expressions.Handlers;
 using GreatWorkIvory.Patches;
 using SecretHistories.Entities;
 
@@ -19,10 +20,10 @@ public class GreatWorkIvoryMod
             SituationPatches.PatchAll();
             DictOfEntitiesPatch.PatchAll();
             
+            ExprHandlers.Init();
             Madrugad.Init();
             GreatWorkApi.RegisterCurrentAssembly();
             
-            Beachcomber.Register<Recipe, ExprEntity>("expr_test");
         }
         catch (Exception e)
         {
