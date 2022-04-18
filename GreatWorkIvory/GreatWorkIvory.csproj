@@ -20,12 +20,15 @@
         <HintPath>..\..\CSLibs\SecretHistories.Main.dll</HintPath>
         <Private>False</Private>
       </Reference>
-      <Reference Include="UnityEngine.CoreModule, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null">
+      <Reference Include="TheRoostMachine">
+        <HintPath>..\..\..\..\..\..\Library\Application Support\Steam\steamapps\workshop\content\718670\2625527332\dll\TheRoostMachine.dll</HintPath>
+      </Reference>
+      <Reference Include="UnityEngine.CoreModule, PublicKeyToken=null">
         <HintPath>..\..\CSLibs\UnityEngine.CoreModule.dll</HintPath>
       </Reference>
     </ItemGroup>
     <ItemGroup>
-      <PackageReference Include="HarmonyX" Version="2.5.5" />
+      <PackageReference Include="HarmonyX" Version="2.1.1" />
       <PackageReference Include="LanguageExt.Parsec" Version="3.4.15" />
     </ItemGroup>
 

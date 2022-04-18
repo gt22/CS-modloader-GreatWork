@@ -12,7 +12,7 @@ namespace GreatWorkIvory.Expressions
             Aspects = aspects;
         }
 
-        public ExpressionContext(Situation s) : this(Watchman.Get<HornedAxe>().GetAspectsInContext(s.GetAspects(true)))
+        public ExpressionContext(Situation s) : this(Watchman.Get<HornedAxe>().GetAspectsInContext(s.GetAspects(true), null))
         {
             
         }

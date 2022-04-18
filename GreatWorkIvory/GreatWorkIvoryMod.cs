@@ -7,12 +7,13 @@ using GreatWorkIvory.Patches;
 using SecretHistories.Entities;
 
 // ReSharper disable once CheckNamespace
-public class GreatWorkIvoryMod
+public class greatworkivory
 {
     public static void Initialise()
     {
         try
         {
+            NoonUtility.Log("Initializing GreatWork");
             ServicePatch.PatchAll();
             RegistryPatch.PatchAll();
             BeachcomberPatch.PatchAll();
@@ -27,7 +28,7 @@ public class GreatWorkIvoryMod
         }
         catch (Exception e)
         {
-            Console.WriteLine(e);
+            NoonUtility.Log($"GW exception: {e}");
         }
     }
 }

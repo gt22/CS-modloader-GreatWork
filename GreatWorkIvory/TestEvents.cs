@@ -41,7 +41,8 @@ namespace GreatWorkIvory
         [SubscribeEvent]
         public static void GameStart(RegistryLink<Numa>.PostReg e)
         {
-            
+            NoonUtility.Log("Game Start");
+            Madrugad.SetFlag("test", 1);
         }
     }
 }
