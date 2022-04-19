@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 using GreatWorkIvory.Entities;
+using Roost;
 
 namespace GreatWorkIvory.Expressions
 {
@@ -58,7 +59,7 @@ namespace GreatWorkIvory.Expressions
             if (target.IsInstanceOfType(r)) return r;
             if (ApplyExplicitConverts(ctx, p, target, r, out var conv)) return conv;
             if (ApplyImplicitConvert(ctx, p, target, r, out conv)) return conv;
-            throw new ArgumentException();
+            throw new ArgumentException($"Can't convert {r} into {target} for param {p}");
         }
 
         private static object BuildParamArray(ExpressionContext ctx, ParameterInfo p, List<object> val, int i)
@@ -105,7 +106,7 @@ namespace GreatWorkIvory.Expressions
                 }
             }
 
-            throw new ArgumentException();
+            throw new ArgumentException($"Can't find working function of {op}[{string.Join(", ", values)}]]");
         }
 
         public static object Eval(this ExprEntity ex, ExpressionContext ctx)

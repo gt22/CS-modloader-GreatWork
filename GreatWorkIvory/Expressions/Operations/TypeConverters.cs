@@ -28,5 +28,8 @@
             [Convert(typeof(string), "valueDouble")]
             double x
         ) => x;
+
+        [ExpressionOp(typeof(object))]
+        public static object OjbectID(object x) => x;
     }
 }
