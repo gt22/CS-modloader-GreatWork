@@ -3,6 +3,7 @@ using GreatWorkIvory;
 using GreatWorkIvory.Entities;
 using GreatWorkIvory.Expressions;
 using GreatWorkIvory.Expressions.Handlers;
+using GreatWorkIvory.Fucine.ExteraActions;
 using GreatWorkIvory.Patches;
 using SecretHistories.Entities;
 
@@ -20,8 +21,10 @@ public class greatworkivory
             CompendiumPatch.PatchAll();
             SituationPatches.PatchAll();
             DictOfEntitiesPatch.PatchAll();
+            RecipeConductorPatch.PatchAll();
             
             ExprHandlers.Init();
+            AdvancedRecipeLinks.Init();
             Madrugad.Init();
             GreatWorkApi.RegisterCurrentAssembly();
             

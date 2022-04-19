@@ -4,32 +4,34 @@
         <TargetFramework>netframework4.8</TargetFramework>
     </PropertyGroup>
     <ItemGroup>
-      <Reference Include="SecretHistories.Constants, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null">
-        <HintPath>..\..\CSLibs\SecretHistories.Constants.dll</HintPath>
-        <Private>False</Private>
-      </Reference>
-      <Reference Include="SecretHistories.Enums, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null">
-        <HintPath>..\..\CSLibs\SecretHistories.Enums.dll</HintPath>
-        <Private>False</Private>
-      </Reference>
-      <Reference Include="SecretHistories.Interfaces, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null">
-        <HintPath>..\..\CSLibs\SecretHistories.Interfaces.dll</HintPath>
-        <Private>False</Private>
-      </Reference>
-      <Reference Include="SecretHistories.Main, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null">
-        <HintPath>..\..\CSLibs\SecretHistories.Main.dll</HintPath>
-        <Private>False</Private>
-      </Reference>
-      <Reference Include="TheRoostMachine">
-        <HintPath>..\..\..\..\..\..\Library\Application Support\Steam\steamapps\workshop\content\718670\2625527332\dll\TheRoostMachine.dll</HintPath>
-      </Reference>
-      <Reference Include="UnityEngine.CoreModule, PublicKeyToken=null">
-        <HintPath>..\..\CSLibs\UnityEngine.CoreModule.dll</HintPath>
-      </Reference>
+        <Reference Include="SecretHistories.Constants, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null">
+            <HintPath>..\..\CSLibs\CS\SecretHistories.Constants.dll</HintPath>
+            <Private>False</Private>
+        </Reference>
+        <Reference Include="SecretHistories.Enums, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null">
+            <HintPath>..\..\CSLibs\CS\SecretHistories.Enums.dll</HintPath>
+            <Private>False</Private>
+        </Reference>
+        <Reference Include="SecretHistories.Interfaces, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null">
+            <HintPath>..\..\CSLibs\CS\SecretHistories.Interfaces.dll</HintPath>
+            <Private>False</Private>
+        </Reference>
+        <Reference Include="SecretHistories.Main, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null">
+            <HintPath>..\..\CSLibs\CS\SecretHistories.Main.dll</HintPath>
+            <Private>False</Private>
+        </Reference>
+        <Reference Include="TheRoostMachine">
+            <HintPath>..\..\CSLibs\Roost\TheRoostMachine.dll</HintPath>
+        </Reference>
+        <Reference Include="0Harmony">
+            <HintPath>..\..\CSLibs\Roost\0Harmony.dll</HintPath>
+        </Reference>
+        <Reference Include="UnityEngine.CoreModule, PublicKeyToken=null">
+            <HintPath>..\..\CSLibs\CS\UnityEngine.CoreModule.dll</HintPath>
+        </Reference>
     </ItemGroup>
     <ItemGroup>
-      <PackageReference Include="HarmonyX" Version="2.1.1" />
-      <PackageReference Include="LanguageExt.Parsec" Version="3.4.15" />
+        <PackageReference Include="LanguageExt.Parsec" Version="3.4.15"/>
     </ItemGroup>
 
 </Project>
