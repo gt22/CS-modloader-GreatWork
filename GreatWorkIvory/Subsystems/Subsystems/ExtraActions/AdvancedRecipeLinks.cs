@@ -8,7 +8,7 @@ using SecretHistories.Core;
 using SecretHistories.Entities;
 using SecretHistories.UI;
 
-namespace GreatWorkIvory.Fucine.ExteraActions
+namespace GreatWorkIvory.Fucine.ExtraActions
 {
     [GwEventHandler]
     public class AdvancedRecipeLinks
